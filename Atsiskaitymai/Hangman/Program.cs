@@ -7,6 +7,7 @@ namespace Hangman
     internal class Program
     {
         public static int wrongCount = 0;
+        public static bool gameOn = true;
         static void Main(string[] args)
         {
             MainMenu();
@@ -97,7 +98,7 @@ namespace Hangman
         private static void Game(List<string> list)
         {
 
-            bool gameOn = true;
+           
             while (gameOn)
             {
 
@@ -119,12 +120,20 @@ namespace Hangman
         public static void Guess(StringBuilder sbSpejimas, string word)
 
         {
-            bool gameOn = true;
+            
             var indexList = new List<int>();
             while (gameOn)
             {
-                if (wrongCount == 6) gameOn = false;
+                if (wrongCount > 5)
+                {
+                    Console.WriteLine("Pralaimejote, bandykite dar karta");
+                    gameOn = false;
+                    
+
+                }
+
                 Console.WriteLine(sbSpejimas.ToString());
+                Console.WriteLine(wrongCount);
                 var guess = Console.ReadLine().ToUpper();
                 var spetosRaides = new StringBuilder();
 
