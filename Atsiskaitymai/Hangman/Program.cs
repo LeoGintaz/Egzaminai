@@ -101,7 +101,7 @@ namespace Hangman
             while (gameOn)
             {
 
-
+                if (wrongCount == 6) gameOn = false;
                 Random rand = new Random();
                 int randIndex = rand.Next(list.Count);
                 string word = list[randIndex];
