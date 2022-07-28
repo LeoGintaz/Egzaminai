@@ -7,13 +7,13 @@ namespace Hangman
     internal class Program
         
     {
-        public static int wrongCount = 0;
-        public static int test = 0;
+        public static int wrongCount = 0;        
         public static bool gameOn = true;
         public static bool menuOn = true;
-        public static bool x = true;
-        
-        
+        public static bool looseMenuOn = true;
+
+
+
         static void Main(string[] args)
         {
             MainMenu();
@@ -24,6 +24,11 @@ namespace Hangman
             
             while (menuOn)
             {
+                
+                Console.Clear();
+                #region SPALVA
+                Console.ForegroundColor = ConsoleColor.White;
+                #endregion
                 Console.WriteLine("--HANGMAN--\n\nPASIRINKITE KATEGORIJA\n");
                 Console.WriteLine("[1] VARDAI\n[2] LIETUVOS MIESTAI\n[3] VALSTYBES\n[4] KITA\n[5] ISEITI");
                 var input = Console.ReadLine();
@@ -31,6 +36,8 @@ namespace Hangman
                 switch (MenuValidacija(input))
                 {
                     case 1:
+                        wrongCount = 0;
+                        gameOn = true;
                         Vardai();
                         break;
                     case 2:
@@ -45,12 +52,34 @@ namespace Hangman
                     case 5:
                         menuOn = false;
                         break;
-
+                        
 
 
                 }
             }
 
+        }
+
+        private static void LooseMenu()
+        {
+            #region SPALVA
+            Console.ForegroundColor = ConsoleColor.White;
+            #endregion
+            Console.WriteLine("\n[1] BANDYTI IS NAUJO\n[2] PASIRINKTI KITA TEMA");
+            var input = Console.ReadLine();
+            while (looseMenuOn = true)
+            {
+                switch (MenuValidacija(input))
+                {
+                    case 1:
+                        Vardai();
+                        break;
+                    case 2:
+                        looseMenuOn = false;
+                        MainMenu();
+                        break;
+                }
+            }
         }
 
         private static void Vardai()
@@ -105,8 +134,8 @@ namespace Hangman
         {
          
 
-            //while (gameOn)
-            {
+            
+            
 
                
                 Random rand = new Random();
@@ -122,7 +151,7 @@ namespace Hangman
                 Guess(hiddenWord, word);
 
                 
-            }
+            
         }
 
         public static void Guess(StringBuilder hiddenWord, string word)
@@ -134,16 +163,18 @@ namespace Hangman
 
             while (gameOn)
             {
-                //GuessCheck();
-                //if (wrongCount > 5) { gameOn = false; };
+                
                 Console.Clear();
                  if (wrongCount > 5)
                  {
-                     Console.WriteLine("Pralaimejote");
-                     gameOn = false;
-                 }
-
-                //GuessCheck();
+                    #region SPALVA
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    #endregion
+                    Console.WriteLine("Pralaimejote");
+                    
+                    gameOn = false;
+                    
+                }               
 
                 Drwing();
                 
@@ -152,7 +183,7 @@ namespace Hangman
                     Console.WriteLine(hiddenWord.ToString());
                     Console.WriteLine(wrongCount);
                     Console.WriteLine("Spetos Raides:\n{0}", spetosRaides.ToString());
-                    //GuessCheck();
+                    
                     var guess = Console.ReadLine().ToUpper();
 
                     foreach (var letter in guess) { spetosRaides.Append(letter); spetosRaides.Append(" "); };
@@ -161,16 +192,8 @@ namespace Hangman
 
 
                         foreach (var letter in guess)
-                        {
-
-
-                            test++;
-                            wrongCount++;
-
-
-
-
-
+                        {                            
+                            ++wrongCount;
                         }
                     }
                     if (word.Contains(guess))
@@ -186,100 +209,82 @@ namespace Hangman
                             }
                         }
                     }
+                foreach (var index in indexList)
+                {
 
-                    /*
-                                    if (word.Contains(guess))
+
+                    hiddenWord[index] = word[index];
+
+
+
+                }
+
+                /*
+                                if (word.Contains(guess))
+                                {
+                                    foreach (var letter in guess)
                                     {
-                                        foreach (var letter in guess)
+
+                                        for (int i = 0; i < word.Length; i++)
+
                                         {
+                                            if (word[i] == letter) indexList.Add(i);
 
-                                            for (int i = 0; i < word.Length; i++)
-
-                                            {
-                                                if (word[i] == letter) indexList.Add(i);
-
-                                            }
                                         }
                                     }
-                                    else
+                                }
+                                else
+                                {
+                                    foreach (var letter in guess)
                                     {
-                                        foreach (var letter in guess)
+
+
+                                        test++;
+                                        wrongCount++;
+                                        if (wrongCount > 5)
                                         {
 
 
-                                            test++;
-                                            wrongCount++;
-                                            if (wrongCount > 5)
-                                            {
+
+                                            Console.WriteLine("Pralaimejote");
 
 
+                                            //gameOn = false;
+                                            //menuOn = true;
 
-                                                Console.WriteLine("Pralaimejote");
-
-
-                                                //gameOn = false;
-                                                //menuOn = true;
-
-                                                //CountCheck();
-                                            }
-
-
+                                            //CountCheck();
                                         }
-                                    }*/
 
 
-                    foreach (var index in indexList)
-                    {
-
-
-                        hiddenWord[index] = word[index];
+                                    }
+                                }*/
 
 
 
-                    }
 
-                
+
             }
                 
             
         }
 
-        private static bool GuessCheck()
-        {
-            if (wrongCount > 5)
-            {
-                Console.WriteLine("Pralaimejote");
-                gameOn = false;
-                
-            }
-            return gameOn;
-        }
-
-        private static void CountCheck()
-        {
-            
-            if (wrongCount >= 5)
-            {  gameOn = false;
-               menuOn = true;
-            }
-            }
+      
 
             private static void Drwing()
-        {
+            {
             
             
                 //               galva|kunas|rank1|ranka2|koja1|koja2
                 string[] body = {  "o", "(_)", "\\", "/", "/", "\\" };
                 //                  ↑     ↑     ↑     ↑    ↑    ↑
                 string[] kunas = { " ", "   ", " ", " ", " ", " " };
-                // ↑↑↑ tarpai ==    1     3     1    1    1    1 ↑↑↑
-                for (int i = 0; i < test; ++i)
+            // ↑↑↑ tarpai ==    1     3     1    1    1    1 ↑↑↑
+            for (int i = 0; i < wrongCount; ++i) { kunas[i] = body[i];  };
                 
-                {
+                   
+            
                 
-                    kunas[i] = body[i];
-                
-            }
+             
                  
 
                 #region STATINIS PIESSINYS
@@ -295,7 +300,7 @@ namespace Hangman
                 Console.Write("|\n");////////////////////////////////////
                 Console.ForegroundColor = ConsoleColor.DarkYellow;///////
                 Console.Write("     |      ");///////////////////////////
-                                              /////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////
                 #endregion
 
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -309,7 +314,7 @@ namespace Hangman
                 /////////////////////////////////////////////////////////
                 Console.ForegroundColor = ConsoleColor.DarkYellow;///////
                 Console.Write("\n    /|\\     ");//////////////////////// STATINIS PIESSINYS
-                                                 /////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////
                 #endregion
 
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -319,7 +324,7 @@ namespace Hangman
                 /////////////////////////////////////////////////////////
                 Console.ForegroundColor = ConsoleColor.DarkYellow;///////
                 Console.Write("\n   / | \\    ");//////////////////////// STATINIS PIESSINYS
-                                                 /////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////
                 #endregion
 
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -345,11 +350,11 @@ namespace Hangman
                 Console.Write("\\");/////////////////////////////////////
                 Console.ForegroundColor = ConsoleColor.DarkGreen;////////
                 Console.WriteLine("________");///////////////////////////
-                                              /////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////
                 Console.ForegroundColor = ConsoleColor.White;
             #endregion
             
-        }
+            }
     }
 }
 /*
