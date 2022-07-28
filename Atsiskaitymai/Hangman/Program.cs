@@ -174,7 +174,7 @@ namespace Hangman
                             Console.WriteLine("Pralaimejote");
 
 
-                            gameOn = false;
+                            //gameOn = false;
                             //menuOn = true;
 
                             //CountCheck();
@@ -217,11 +217,12 @@ namespace Hangman
                 string[] kunas = { " ", "   ", " ", " ", " ", " " };
                 // ↑↑↑ tarpai ==    1     3     1    1    1    1 ↑↑↑
                 for (int i = 0; i < test; ++i)
+                
                 {
                 
                     kunas[i] = body[i];
                 
-                }
+            }
                  
 
                 #region STATINIS PIESSINYS
@@ -289,7 +290,7 @@ namespace Hangman
                 Console.WriteLine("________");///////////////////////////
                                               /////////////////////////////////////////////////////////
                 Console.ForegroundColor = ConsoleColor.White;
-                #endregion
+            #endregion
             
         }
     }
