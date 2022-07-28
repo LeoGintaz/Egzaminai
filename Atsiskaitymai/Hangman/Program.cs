@@ -8,9 +8,11 @@ namespace Hangman
         
     {
         public static int wrongCount = 0;
+        public static int test = 0;
         public static bool gameOn = true;
         public static bool menuOn = true;
-        public static int i2 = 0;
+        public static bool x = true;
+        
         
         static void Main(string[] args)
         {
@@ -103,7 +105,7 @@ namespace Hangman
         {
          
 
-            while (gameOn)
+            //while (gameOn)
             {
 
                
@@ -118,6 +120,7 @@ namespace Hangman
 
                
                 Guess(hiddenWord, word);
+
                 
             }
         }
@@ -133,7 +136,7 @@ namespace Hangman
                 
                 Console.Clear();
                 Drwing();
-
+                
 
                 Console.WriteLine(hiddenWord.ToString());
                 Console.WriteLine(wrongCount);
@@ -160,18 +163,21 @@ namespace Hangman
                     foreach (var letter in guess)
                     {
 
-                        ++wrongCount;
+
+                        test++;
+                        wrongCount++;
                         if (wrongCount > 5)
                         {
 
-                            wrongCount++;
+                            
 
                             Console.WriteLine("Pralaimejote");
-                                Console.ReadKey();
+
 
                             gameOn = false;
-                            menuOn = true;
-                            
+                            //menuOn = true;
+
+                            //CountCheck();
                         }
                         
 
@@ -188,89 +194,103 @@ namespace Hangman
                         
                     
                 }
-
+                
             }
         }
 
-        private static void Drwing()
+        private static void CountCheck()
         {
-            //               galva|kunas|rank1|ranka2|koja1|koja2
-            string[] body  = { "o", "(_)", "\\", "/", "/", "\\" };
-            //                  ↑     ↑     ↑     ↑    ↑    ↑
-            string[] kunas = { " ", "   ", " ", " ", " ", " " };
-            // ↑↑↑ tarpai ==    1     3     1    1    1    1 ↑↑↑
-            for (int i = 0 ; i < wrongCount ; i++)
-            {
-                kunas[i] = body[i];
+            
+            if (wrongCount > 5)
+            {  gameOn = false;
+               menuOn = true;
+            }
             }
 
-            #region STATINIS PIESSINYS
-            /////////////////////////////////////////////////////////            
-            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-            Console.WriteLine("     _________");/////////////////////
-            Console.Write("     |       ");//////////////////////////
-            Console.ForegroundColor = ConsoleColor.Yellow;///////////
-            Console.Write("|\n");////////////////////////////////////
-            Console.ForegroundColor = ConsoleColor.DarkYellow;/////// STATINIS PIESSINYS
-            Console.Write("     |       ");//////////////////////////
-            Console.ForegroundColor = ConsoleColor.Yellow;///////////
-            Console.Write("|\n");////////////////////////////////////
-            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-            Console.Write("     |      ");///////////////////////////
-            /////////////////////////////////////////////////////////
-            #endregion
+            private static void Drwing()
+        {
+            
+            
+                //               galva|kunas|rank1|ranka2|koja1|koja2
+                string[] body = {  "o", "(_)", "\\", "/", "/", "\\" };
+                //                  ↑     ↑     ↑     ↑    ↑    ↑
+                string[] kunas = { " ", "   ", " ", " ", " ", " " };
+                // ↑↑↑ tarpai ==    1     3     1    1    1    1 ↑↑↑
+                for (int i = 0; i < test; ++i)
+                {
+                
+                    kunas[i] = body[i];
+                
+                }
+                 
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(kunas[2]);//kaire ranka1
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(kunas[0]);//galva
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(kunas[3]);//desne ranka2
+                #region STATINIS PIESSINYS
+                /////////////////////////////////////////////////////////            
+                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+                Console.WriteLine("     _________");/////////////////////
+                Console.Write("     |       ");//////////////////////////
+                Console.ForegroundColor = ConsoleColor.Yellow;///////////
+                Console.Write("|\n");////////////////////////////////////
+                Console.ForegroundColor = ConsoleColor.DarkYellow;/////// STATINIS PIESSINYS
+                Console.Write("     |       ");//////////////////////////
+                Console.ForegroundColor = ConsoleColor.Yellow;///////////
+                Console.Write("|\n");////////////////////////////////////
+                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+                Console.Write("     |      ");///////////////////////////
+                                              /////////////////////////////////////////////////////////
+                #endregion
 
-            #region STATINIS PIESSINYS
-            /////////////////////////////////////////////////////////
-            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-            Console.Write("\n    /|\\     ");//////////////////////// STATINIS PIESSINYS
-            /////////////////////////////////////////////////////////
-            #endregion
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(kunas[2]);//kaire ranka1
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(kunas[0]);//galva
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(kunas[3]);//desne ranka2
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(kunas[1]);//kunas
+                #region STATINIS PIESSINYS
+                /////////////////////////////////////////////////////////
+                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+                Console.Write("\n    /|\\     ");//////////////////////// STATINIS PIESSINYS
+                                                 /////////////////////////////////////////////////////////
+                #endregion
 
-            #region STATINIS PIESSINYS
-            /////////////////////////////////////////////////////////
-            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-            Console.Write("\n   / | \\    ");//////////////////////// STATINIS PIESSINYS
-            /////////////////////////////////////////////////////////
-            #endregion
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(kunas[1]);//kunas
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(kunas[4]);//kaire koja1
-            Console.Write(" ");//koju arpas
-            Console.Write(kunas[5]);//desne koja2
+                #region STATINIS PIESSINYS
+                /////////////////////////////////////////////////////////
+                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+                Console.Write("\n   / | \\    ");//////////////////////// STATINIS PIESSINYS
+                                                 /////////////////////////////////////////////////////////
+                #endregion
 
-            #region STATINIS PIESSINYS
-            /////////////////////////////////////////////////////////
-            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-            Console.Write("\n  /——|——\\\n");/////////////////////////
-            Console.ForegroundColor = ConsoleColor.DarkGreen;////////
-            Console.Write("_");//////////////////////////////////////
-            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-            Console.Write("/");//////////////////////////////////////
-            Console.ForegroundColor = ConsoleColor.DarkGreen;////////
-            Console.Write("___");//////////////////////////////////// STATINIS PIESSINYS
-            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-            Console.Write("|");//////////////////////////////////////
-            Console.ForegroundColor = ConsoleColor.DarkGreen;////////
-            Console.Write("___");////////////////////////////////////
-            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-            Console.Write("\\");/////////////////////////////////////
-            Console.ForegroundColor = ConsoleColor.DarkGreen;////////
-            Console.WriteLine("________");///////////////////////////
-            /////////////////////////////////////////////////////////
-            Console.ForegroundColor = ConsoleColor.White;
-            #endregion
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(kunas[4]);//kaire koja1
+                Console.Write(" ");//koju arpas
+                Console.Write(kunas[5]);//desne koja2
 
+                #region STATINIS PIESSINYS
+                /////////////////////////////////////////////////////////
+                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+                Console.Write("\n  /——|——\\\n");/////////////////////////
+                Console.ForegroundColor = ConsoleColor.DarkGreen;////////
+                Console.Write("_");//////////////////////////////////////
+                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+                Console.Write("/");//////////////////////////////////////
+                Console.ForegroundColor = ConsoleColor.DarkGreen;////////
+                Console.Write("___");//////////////////////////////////// STATINIS PIESSINYS
+                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+                Console.Write("|");//////////////////////////////////////
+                Console.ForegroundColor = ConsoleColor.DarkGreen;////////
+                Console.Write("___");////////////////////////////////////
+                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+                Console.Write("\\");/////////////////////////////////////
+                Console.ForegroundColor = ConsoleColor.DarkGreen;////////
+                Console.WriteLine("________");///////////////////////////
+                                              /////////////////////////////////////////////////////////
+                Console.ForegroundColor = ConsoleColor.White;
+                #endregion
+            
         }
     }
 }
