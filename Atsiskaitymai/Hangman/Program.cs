@@ -118,7 +118,7 @@ namespace Hangman
 
 
 
-               
+                
                 Guess(hiddenWord, word);
 
                 
@@ -131,77 +131,134 @@ namespace Hangman
             var spetosRaides = new StringBuilder();
 
             var indexList = new List<int>();
+
             while (gameOn)
             {
-                
+                //GuessCheck();
+                //if (wrongCount > 5) { gameOn = false; };
                 Console.Clear();
+                 if (wrongCount > 5)
+                 {
+                     Console.WriteLine("Pralaimejote");
+                     gameOn = false;
+                 }
+
+                //GuessCheck();
+
                 Drwing();
                 
-
-                Console.WriteLine(hiddenWord.ToString());
-                Console.WriteLine(wrongCount);
-                Console.WriteLine("Spetos Raides:\n{0}",spetosRaides.ToString());
-                var guess = Console.ReadLine().ToUpper();
-                foreach (var letter in guess)  { spetosRaides.Append(letter); spetosRaides.Append(" "); };
                 
 
-                if (word.Contains(guess))
-                {
-                    foreach (var letter in guess)
-                    {
-                        
-                        for (int i = 0; i < word.Length; i++)
+                    Console.WriteLine(hiddenWord.ToString());
+                    Console.WriteLine(wrongCount);
+                    Console.WriteLine("Spetos Raides:\n{0}", spetosRaides.ToString());
+                    //GuessCheck();
+                    var guess = Console.ReadLine().ToUpper();
 
-                        {
-                            if (word[i] == letter) indexList.Add(i);
-
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var letter in guess)
+                    foreach (var letter in guess) { spetosRaides.Append(letter); spetosRaides.Append(" "); };
+                    if (word.Contains(guess) == false)
                     {
 
 
-                        test++;
-                        wrongCount++;
-                        if (wrongCount > 5)
+                        foreach (var letter in guess)
                         {
 
-                            
 
-                            Console.WriteLine("Pralaimejote");
+                            test++;
+                            wrongCount++;
 
 
-                            //gameOn = false;
-                            //menuOn = true;
 
-                            //CountCheck();
+
+
                         }
-                        
-
                     }
-                }
+                    if (word.Contains(guess))
+                    {
+                        foreach (var letter in guess)
+                        {
+
+                            for (int i = 0; i < word.Length; i++)
+
+                            {
+                                if (word[i] == letter) indexList.Add(i);
+
+                            }
+                        }
+                    }
+
+                    /*
+                                    if (word.Contains(guess))
+                                    {
+                                        foreach (var letter in guess)
+                                        {
+
+                                            for (int i = 0; i < word.Length; i++)
+
+                                            {
+                                                if (word[i] == letter) indexList.Add(i);
+
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (var letter in guess)
+                                        {
 
 
-                foreach (var index in indexList)
-                {
+                                            test++;
+                                            wrongCount++;
+                                            if (wrongCount > 5)
+                                            {
 
-                    
+
+
+                                                Console.WriteLine("Pralaimejote");
+
+
+                                                //gameOn = false;
+                                                //menuOn = true;
+
+                                                //CountCheck();
+                                            }
+
+
+                                        }
+                                    }*/
+
+
+                    foreach (var index in indexList)
+                    {
+
+
                         hiddenWord[index] = word[index];
 
-                        
-                    
-                }
+
+
+                    }
+
                 
             }
+                
+            
+        }
+
+        private static bool GuessCheck()
+        {
+            if (wrongCount > 5)
+            {
+                Console.WriteLine("Pralaimejote");
+                gameOn = false;
+                
+            }
+            return gameOn;
         }
 
         private static void CountCheck()
         {
             
-            if (wrongCount > 5)
+            if (wrongCount >= 5)
             {  gameOn = false;
                menuOn = true;
             }
