@@ -136,7 +136,14 @@ namespace Hangman
             Random rand = new Random();
 
             int randIndex = rand.Next(1, (list.Count + 1));
-
+            if (usedRandIndex.Count == list.Count)
+            {
+                Console.WriteLine("Laimejote");
+                usedRandIndex.Clear();
+                wrongCount = 0;
+                MainMenu();
+            }
+            
             while (usedRandIndex.Contains(randIndex)) { randIndex = rand.Next(1, 11); };
             usedRandIndex.Add(randIndex);
 
@@ -169,8 +176,7 @@ namespace Hangman
                 //while (usedRandIndex.Contains(randIndex)) { randIndex = rand.Next(1, 11); };
                 //usedRandIndex.Add(randIndex);
 
-                if (usedRandIndex.Count == 10)
-                { Console.WriteLine("Laimejote"); }
+               
 
                 Console.Clear();
                 if (wrongCount > 5)
@@ -186,7 +192,7 @@ namespace Hangman
                 if (hiddenWord.ToString() == word)
                 {
                     
-                    Console.WriteLine("Attspejote");
+                    Console.WriteLine("Atspejote");
                     Console.ReadKey();
                     
                     wrongCount = 0;
