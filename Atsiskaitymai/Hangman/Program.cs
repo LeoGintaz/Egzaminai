@@ -5,9 +5,10 @@ namespace Hangman
 {
 
     internal class Program
-        
+
     {
-        public static int wrongCount = 0;        
+        public static List<int> usedRandIndex = new List<int>();
+        public static int wrongCount = 0;
         public static bool gameOn = true;
         public static bool menuOn = true;
         public static bool looseMenuOn = true;
@@ -21,10 +22,10 @@ namespace Hangman
 
         private static void MainMenu()
         {
-            
+
             while (menuOn)
             {
-                
+
                 Console.Clear();
                 #region SPALVA
                 Console.ForegroundColor = ConsoleColor.White;
@@ -36,7 +37,7 @@ namespace Hangman
                 switch (MenuValidacija(input))
                 {
                     case 1:
-                        wrongCount = 0;
+                        //wrongCount = 0;
                         gameOn = true;
                         Vardai();
                         break;
@@ -52,7 +53,7 @@ namespace Hangman
                     case 5:
                         menuOn = false;
                         break;
-                        
+
 
 
                 }
@@ -84,13 +85,13 @@ namespace Hangman
 
         private static void Vardai()
         {
-            List<string> vardai = new List<string> { "TOMAS", "GINTARAS", "LAURYNAS", "EDVINAS", "ROBERTAS", "PAULIUS", "ROMUALDAS", "SIMONAS", "DOMINYKAS", "VYTAUTAS" };
+            //List<string> vardai = new List<string> { "TOMAS", "GINTARAS", "LAURYNAS", "EDVINAS", "ROBERTAS", "PAULIUS", "ROMUALDAS", "SIMONAS", "DOMINYKAS", "VYTAUTAS" };
             var varduZodynas = new Dictionary<int, string>()
             {
                 {1, "TOMAS"},
                 {2, "GINTARAS"},
                 {3, "LAURYNAS"},
-                {4,"EDVINAS"},
+                {4, "EDVINAS"},
                 {5, "ROBERTAS"},
                 {6, "PAULIUS"},
                 {7, "ROMUALDAS"},
@@ -98,7 +99,7 @@ namespace Hangman
                 {9, "DOMINYKAS"},
                 {10, "VYTAUTAS"}
             };
-            Game(vardai);
+            Game(varduZodynas);
         }
 
 
@@ -130,231 +131,215 @@ namespace Hangman
             return input;
 
         }
-        private static void Game(List<string> list)
+        public static void Game(Dictionary<int, string> list)
         {
-         
+            Random rand = new Random();
 
-            
-            
+            int randIndex = rand.Next(1, (list.Count + 1));
 
-               
-                Random rand = new Random();
-                int randIndex = rand.Next(list.Count);
-                string word = list[randIndex];
-                //------------------------------------//
-                var hiddenWord = new StringBuilder();
-                foreach (var item in word) { hiddenWord.Append("-"); }
+            while (usedRandIndex.Contains(randIndex)) { randIndex = rand.Next(1, 11); };
+            usedRandIndex.Add(randIndex);
 
+            //------------------------------------//
+            var hiddenWord = new StringBuilder();
+
+            string word = list[randIndex];
 
 
-                
-                Guess(hiddenWord, word);
+            //usedRandIndex.Add(randIndex);
+            foreach (var item in word) { hiddenWord.Append("-"); }
 
-                
-            
+            Guess(hiddenWord, word, randIndex,rand);
+
+
         }
 
-        public static void Guess(StringBuilder hiddenWord, string word)
+        public static void Guess(StringBuilder hiddenWord, string word, int randIndex, Random rand)
 
         {
+
             var spetosRaides = new StringBuilder();
 
             var indexList = new List<int>();
+            
 
             while (gameOn)
             {
-                
+                //usedRandIndex.Add(randIndex);
+                //while (usedRandIndex.Contains(randIndex)) { randIndex = rand.Next(1, 11); };
+                //usedRandIndex.Add(randIndex);
+
+                if (usedRandIndex.Count == 10)
+                { Console.WriteLine("Laimejote"); }
+
                 Console.Clear();
-                 if (wrongCount > 5)
-                 {
+                if (wrongCount > 5)
+                {
                     #region SPALVA
                     Console.ForegroundColor = ConsoleColor.Red;
                     #endregion
                     Console.WriteLine("Pralaimejote");
-                    
+                    wrongCount = 0;
                     gameOn = false;
-                    
-                }               
-
-                Drwing();
-                
-                
-
-                    Console.WriteLine(hiddenWord.ToString());
-                    Console.WriteLine(wrongCount);
-                    Console.WriteLine("Spetos Raides:\n{0}", spetosRaides.ToString());
-                    
-                    var guess = Console.ReadLine().ToUpper();
-
-                    foreach (var letter in guess) { spetosRaides.Append(letter); spetosRaides.Append(" "); };
-                    if (word.Contains(guess) == false)
-                    {
-
-
-                        foreach (var letter in guess)
-                        {                            
-                            ++wrongCount;
-                        }
-                    }
-                    if (word.Contains(guess))
-                    {
-                        foreach (var letter in guess)
-                        {
-
-                            for (int i = 0; i < word.Length; i++)
-
-                            {
-                                if (word[i] == letter) indexList.Add(i);
-
-                            }
-                        }
-                    }
-                foreach (var index in indexList)
-                {
-
-
-                    hiddenWord[index] = word[index];
-
-
 
                 }
+                if (hiddenWord.ToString() == word)
+                {
+                    
+                    Console.WriteLine("Attspejote");
+                    Console.ReadKey();
+                    
+                    wrongCount = 0;
+                    Vardai();
+                }
+                Drwing();
 
-                /*
-                                if (word.Contains(guess))
-                                {
-                                    foreach (var letter in guess)
-                                    {
+                Console.WriteLine(hiddenWord.ToString());
+                Console.WriteLine(wrongCount);
+                Console.WriteLine("Spetos Raides:\n{0}", spetosRaides.ToString());
 
-                                        for (int i = 0; i < word.Length; i++)
+                var guess = Console.ReadLine().ToUpper();
 
-                                        {
-                                            if (word[i] == letter) indexList.Add(i);
+                foreach (var letter in guess) { spetosRaides.Append(letter); spetosRaides.Append(" "); };
 
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    foreach (var letter in guess)
-                                    {
+                WrongCountCalculator(guess, word);
+                CorrectGuess(guess, word, indexList, hiddenWord);
 
-
-                                        test++;
-                                        wrongCount++;
-                                        if (wrongCount > 5)
-                                        {
-
-
-
-                                            Console.WriteLine("Pralaimejote");
-
-
-                                            //gameOn = false;
-                                            //menuOn = true;
-
-                                            //CountCheck();
-                                        }
-
-
-                                    }
-                                }*/
 
 
 
 
 
             }
-                
-            
+
+
         }
 
-      
+        public static void CorrectGuess(string guess, string word, List<int> indexList, StringBuilder hiddenWord)
+        {
 
-            private static void Drwing()
+            if (word.Contains(guess))
             {
-            
-            
-                //               galva|kunas|rank1|ranka2|koja1|koja2
-                string[] body = {  "o", "(_)", "\\", "/", "/", "\\" };
-                //                  ↑     ↑     ↑     ↑    ↑    ↑
-                string[] kunas = { " ", "   ", " ", " ", " ", " " };
-            // ↑↑↑ tarpai ==    1     3     1    1    1    1 ↑↑↑
-            for (int i = 0; i < wrongCount; ++i) { kunas[i] = body[i];  };
-                
-                   
-            
-                
-             
-                 
+                foreach (var letter in guess)
+                {
 
-                #region STATINIS PIESSINYS
-                /////////////////////////////////////////////////////////            
-                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-                Console.WriteLine("     _________");/////////////////////
-                Console.Write("     |       ");//////////////////////////
-                Console.ForegroundColor = ConsoleColor.Yellow;///////////
-                Console.Write("|\n");////////////////////////////////////
-                Console.ForegroundColor = ConsoleColor.DarkYellow;/////// STATINIS PIESSINYS
-                Console.Write("     |       ");//////////////////////////
-                Console.ForegroundColor = ConsoleColor.Yellow;///////////
-                Console.Write("|\n");////////////////////////////////////
-                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-                Console.Write("     |      ");///////////////////////////
-                /////////////////////////////////////////////////////////
-                #endregion
+                    for (int i = 0; i < word.Length; i++)
 
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write(kunas[2]);//kaire ranka1
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write(kunas[0]);//galva
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write(kunas[3]);//desne ranka2
+                    {
+                        if (word[i] == letter) indexList.Add(i);
 
-                #region STATINIS PIESSINYS
-                /////////////////////////////////////////////////////////
-                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-                Console.Write("\n    /|\\     ");//////////////////////// STATINIS PIESSINYS
-                /////////////////////////////////////////////////////////
-                #endregion
-
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write(kunas[1]);//kunas
-
-                #region STATINIS PIESSINYS
-                /////////////////////////////////////////////////////////
-                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-                Console.Write("\n   / | \\    ");//////////////////////// STATINIS PIESSINYS
-                /////////////////////////////////////////////////////////
-                #endregion
-
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write(kunas[4]);//kaire koja1
-                Console.Write(" ");//koju arpas
-                Console.Write(kunas[5]);//desne koja2
-
-                #region STATINIS PIESSINYS
-                /////////////////////////////////////////////////////////
-                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-                Console.Write("\n  /——|——\\\n");/////////////////////////
-                Console.ForegroundColor = ConsoleColor.DarkGreen;////////
-                Console.Write("_");//////////////////////////////////////
-                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-                Console.Write("/");//////////////////////////////////////
-                Console.ForegroundColor = ConsoleColor.DarkGreen;////////
-                Console.Write("___");//////////////////////////////////// STATINIS PIESSINYS
-                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-                Console.Write("|");//////////////////////////////////////
-                Console.ForegroundColor = ConsoleColor.DarkGreen;////////
-                Console.Write("___");////////////////////////////////////
-                Console.ForegroundColor = ConsoleColor.DarkYellow;///////
-                Console.Write("\\");/////////////////////////////////////
-                Console.ForegroundColor = ConsoleColor.DarkGreen;////////
-                Console.WriteLine("________");///////////////////////////
-                /////////////////////////////////////////////////////////
-                Console.ForegroundColor = ConsoleColor.White;
-            #endregion
-            
+                    }
+                }
             }
+            foreach (var index in indexList)
+            {
+
+
+                hiddenWord[index] = word[index];
+
+
+
+            }
+        }
+
+        public static void WrongCountCalculator(string guess, string word)
+        {
+            if (word.Contains(guess) == false)
+            {
+
+
+                foreach (var letter in guess)
+                {
+                    ++wrongCount;
+                }
+            }
+        }
+
+        public static void Drwing()
+        {
+
+
+            //               galva|kunas|rank1|ranka2|koja1|koja2
+            string[] body = { "o", "(_)", "\\", "/", "/", "\\" };
+            //                  ↑     ↑     ↑     ↑    ↑    ↑
+            string[] kunas = { " ", "   ", " ", " ", " ", " " };
+            // ↑↑↑ tarpai ==    1     3     1    1    1    1 ↑↑↑
+            for (int i = 0; i < wrongCount; ++i) { kunas[i] = body[i]; };
+
+
+
+
+
+
+
+            #region STATINIS PIESSINYS
+            /////////////////////////////////////////////////////////            
+            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+            Console.WriteLine("     _________");/////////////////////
+            Console.Write("     |       ");//////////////////////////
+            Console.ForegroundColor = ConsoleColor.Yellow;///////////
+            Console.Write("|\n");////////////////////////////////////
+            Console.ForegroundColor = ConsoleColor.DarkYellow;/////// STATINIS PIESSINYS
+            Console.Write("     |       ");//////////////////////////
+            Console.ForegroundColor = ConsoleColor.Yellow;///////////
+            Console.Write("|\n");////////////////////////////////////
+            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+            Console.Write("     |      ");///////////////////////////
+                                          /////////////////////////////////////////////////////////
+            #endregion
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(kunas[2]);//kaire ranka1
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(kunas[0]);//galva
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(kunas[3]);//desne ranka2
+
+            #region STATINIS PIESSINYS
+            /////////////////////////////////////////////////////////
+            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+            Console.Write("\n    /|\\     ");//////////////////////// STATINIS PIESSINYS
+                                             /////////////////////////////////////////////////////////
+            #endregion
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(kunas[1]);//kunas
+
+            #region STATINIS PIESSINYS
+            /////////////////////////////////////////////////////////
+            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+            Console.Write("\n   / | \\    ");//////////////////////// STATINIS PIESSINYS
+                                             /////////////////////////////////////////////////////////
+            #endregion
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(kunas[4]);//kaire koja1
+            Console.Write(" ");//koju arpas
+            Console.Write(kunas[5]);//desne koja2
+
+            #region STATINIS PIESSINYS
+            /////////////////////////////////////////////////////////
+            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+            Console.Write("\n  /——|——\\\n");/////////////////////////
+            Console.ForegroundColor = ConsoleColor.DarkGreen;////////
+            Console.Write("_");//////////////////////////////////////
+            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+            Console.Write("/");//////////////////////////////////////
+            Console.ForegroundColor = ConsoleColor.DarkGreen;////////
+            Console.Write("___");//////////////////////////////////// STATINIS PIESSINYS
+            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+            Console.Write("|");//////////////////////////////////////
+            Console.ForegroundColor = ConsoleColor.DarkGreen;////////
+            Console.Write("___");////////////////////////////////////
+            Console.ForegroundColor = ConsoleColor.DarkYellow;///////
+            Console.Write("\\");/////////////////////////////////////
+            Console.ForegroundColor = ConsoleColor.DarkGreen;////////
+            Console.WriteLine("________");///////////////////////////
+                                          /////////////////////////////////////////////////////////
+            Console.ForegroundColor = ConsoleColor.White;
+            #endregion
+
+        }
     }
 }
 /*
