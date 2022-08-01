@@ -51,7 +51,8 @@ namespace Hangman
                         Valstybes();
                         break;
                     case "4":
-                        //Givunai();
+                        gameOn = true;
+                        Gyvunai();
                         break;
                     case "5":
                         menuOn = false;
@@ -66,6 +67,24 @@ namespace Hangman
                 }
             }
 
+        }
+
+        private static void Gyvunai()
+        {
+            var gyvunuZodynas = new Dictionary<int, string>()
+            {
+                {1, "GEPARDAS"},
+                {2, "BEGEMOTAS"},
+                {3, "GYVATE"},
+                {4, "LIUTAS"},
+                {5, "PANTERA"},
+                {6, "STIRNA"},
+                {7, "JAUTIS"},
+                {8, "VILKAS"},
+                {9, "LEOPARDAS"},
+                {10, "STRUTIS"}
+            };
+            Game(gyvunuZodynas);
         }
 
         private static void Valstybes()
@@ -128,7 +147,7 @@ namespace Hangman
 
         private static void Vardai()
         {
-            //List<string> vardai = new List<string> { "TOMAS", "GINTARAS", "LAURYNAS", "EDVINAS", "ROBERTAS", "PAULIUS", "ROMUALDAS", "SIMONAS", "DOMINYKAS", "VYTAUTAS" };
+            
             var varduZodynas = new Dictionary<int, string>()
             {
                 {1, "TOMAS"},
@@ -201,7 +220,7 @@ namespace Hangman
                 //string word = "ABC";
 
 
-                //usedRandIndex.Add(randIndex);
+                
                 foreach (var item in word) { hiddenWord.Append("-"); }
 
                 Guess(hiddenWord, word, randIndex, rand);
@@ -221,9 +240,7 @@ namespace Hangman
 
             while (gameOn)
             {
-                //usedRandIndex.Add(randIndex);
-                //while (usedRandIndex.Contains(randIndex)) { randIndex = rand.Next(1, 11); };
-                //usedRandIndex.Add(randIndex);
+              
 
                
 
@@ -265,7 +282,7 @@ namespace Hangman
                     }
                 }
 
-                //foreach (var letter in guess) { spetosRaides.Append(letter); spetosRaides.Append(" "); };
+                
 
                 WrongCountCalculator(guess, word , ref spetosRaides);
                 CorrectGuess(guess, word, indexList, hiddenWord);
@@ -431,19 +448,19 @@ namespace Hangman
 }
 /*
  Instructions
-- Naudotojas pasirenka iš temų: VARDAI, LIETUVOS MIESTAI, VALSTYBES, KITA. 
++ Naudotojas pasirenka iš temų: VARDAI, LIETUVOS MIESTAI, VALSTYBES, KITA. 
   (ne mažiau kaip 10 žodžių kiekvienoje grupėje)
 + Žodis iš pasirinktos grupės parenkamas atsitiktine tvarka.
 + Užtikrinti kad nebūtu duodamas tas pat žodis daugiau kaip 1 kartą per žaidimą
 + Užtikrinti, kad programą nenulūžtu jei vartotojas įveda ne tai ko prašoma
 + Ėjimas skaitomas tik jei spėjama dar nespėta raidė
-- Jei spėjamas visas žodis ir neatspėjama - iškarto pralaimima
++ Jei spėjamas visas žodis ir neatspėjama - iškarto pralaimima
 + Parodoma atspėtos raidės vieta žodyje
 + Parodomos spėtos, bet neatspėtos raidės
 
 Apribojimai:
-- Žodžius saugoti masyvuose  arba žodyne.
-- Kodą skaidyti į metodus.
-- negalima naudoti OOP ir LINQ
++ Žodžius saugoti masyvuose  arba žodyne.
++ Kodą skaidyti į metodus.
++ negalima naudoti OOP ir LINQ
  */
 // "","","","","","","","","",""
