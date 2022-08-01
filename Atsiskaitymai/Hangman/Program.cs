@@ -7,7 +7,8 @@ namespace Hangman
     internal class Program
 
     {
-        public static List<int> usedRandIndex = new List<int>();
+        //public static List<int> usedRandIndex = new List<int>();
+        public static List<int> usedRandIndex = new List<int> {1,2,3,4,5,6,7,8,9 };
         public static int wrongCount = 0;
         public static bool gameOn = true;
         public static bool menuOn = true;
@@ -46,7 +47,8 @@ namespace Hangman
                         Miestai();
                         break;
                     case "3":
-                        //Valstybes();
+                        gameOn= true;
+                        Valstybes();
                         break;
                     case "4":
                         //Givunai();
@@ -64,6 +66,24 @@ namespace Hangman
                 }
             }
 
+        }
+
+        private static void Valstybes()
+        {
+            var valstybiuZodynas = new Dictionary<int, string>()
+            {
+                {1, "LIETUVA"},
+                {2, "ESTIJA"},
+                {3, "LATVIJA"},
+                {4, "LENKIJA"},
+                {5, "KANADA"},
+                {6, "BRAZILIJA"},
+                {7, "JAPONIJA"},
+                {8, "KROATIJA"},
+                {9, "SLOVAKIJA"},
+                {10, "VOKIETIJA"}
+            };
+            Game(valstybiuZodynas);
         }
 
         private static void Miestai()
@@ -157,29 +177,35 @@ namespace Hangman
         public static void Game(Dictionary<int, string> list)
         {
             Random rand = new Random();
-
-            int randIndex = rand.Next(1, (list.Count + 1));
-            if (usedRandIndex.Count == list.Count)
+            var x = true;
+            while (x)
             {
-                Console.WriteLine("Laimejote");
-                usedRandIndex.Clear();
-                wrongCount = 0;
-                MainMenu();
+                int randIndex = rand.Next(1, (list.Count + 1));
+                if (usedRandIndex.Count == list.Count)
+                {
+                    Console.WriteLine("Laimejote");
+                    Console.ReadKey();
+                    usedRandIndex.Clear();
+                    wrongCount = 0;
+                    gameOn = false;
+                    x = false;
+                }
+
+                while (usedRandIndex.Contains(randIndex)) { randIndex = rand.Next(1, 11); };
+                usedRandIndex.Add(randIndex);
+
+                //------------------------------------//
+                var hiddenWord = new StringBuilder();
+
+                string word = list[randIndex];
+                //string word = "ABC";
+
+
+                //usedRandIndex.Add(randIndex);
+                foreach (var item in word) { hiddenWord.Append("-"); }
+
+                Guess(hiddenWord, word, randIndex, rand);
             }
-            
-            while (usedRandIndex.Contains(randIndex)) { randIndex = rand.Next(1, 11); };
-            usedRandIndex.Add(randIndex);
-
-            //------------------------------------//
-            var hiddenWord = new StringBuilder();
-
-            string word = list[randIndex];
-
-
-            //usedRandIndex.Add(randIndex);
-            foreach (var item in word) { hiddenWord.Append("-"); }
-
-            Guess(hiddenWord, word, randIndex,rand);
 
 
         }
@@ -208,6 +234,7 @@ namespace Hangman
                     Console.ForegroundColor = ConsoleColor.Red;
                     #endregion
                     Console.WriteLine("Pralaimejote");
+                    
                     wrongCount = 0;
                     gameOn = false;
 
@@ -219,7 +246,7 @@ namespace Hangman
                     Console.ReadKey();
                     
                     wrongCount = 0;
-                    Vardai();
+                    break;
                 }
                 Drwing();
 
@@ -285,7 +312,11 @@ namespace Hangman
             if (word.Contains(guess) == false)
             {
 
-
+                if (guess.Length == word.Length)
+                {
+                    wrongCount = 6;
+                    
+                }
                 foreach (var letter in guess)
 
                 {
@@ -316,7 +347,11 @@ namespace Hangman
             //                  ↑     ↑     ↑     ↑    ↑    ↑
             string[] kunas = { " ", "   ", " ", " ", " ", " " };
             // ↑↑↑ tarpai ==    1     3     1    1    1    1 ↑↑↑
-            for (int i = 0; i < wrongCount; ++i) { kunas[i] = body[i]; };
+            
+            for (int i = 0; i < wrongCount; ++i) { 
+                kunas[i] = body[i];
+                
+            };
 
 
 
