@@ -37,12 +37,13 @@ namespace Hangman
                 switch (input)
                 {
                     case  "1":
-                        //wrongCount = 0;
+                        
                         gameOn = true;
                         Vardai();
                         break;
                     case "2":
-                        //Miestai();
+                        gameOn = true;
+                        Miestai();
                         break;
                     case "3":
                         //Valstybes();
@@ -63,6 +64,24 @@ namespace Hangman
                 }
             }
 
+        }
+
+        private static void Miestai()
+        {
+            var miestuZodynas = new Dictionary<int, string>()
+            {
+                {1, "KAUNAS"},
+                {2, "VILNIUS"},
+                {3, "KLAIPEDA"},
+                {4, "PANEVEZYS"},
+                {5, "SIAULIAI"},
+                {6, "JUODKRANTE"},
+                {7, "NIDA"},
+                {8, "PERVALKA"},
+                {9, "ALYTUS"},
+                {10, "AKMENE"}
+            };
+            Game(miestuZodynas);
         }
 
         private static void LooseMenu()
@@ -383,7 +402,7 @@ namespace Hangman
 + Užtikrinti kad nebūtu duodamas tas pat žodis daugiau kaip 1 kartą per žaidimą
 + Užtikrinti, kad programą nenulūžtu jei vartotojas įveda ne tai ko prašoma
 + Ėjimas skaitomas tik jei spėjama dar nespėta raidė
-+ Jei spėjamas visas žodis ir neatspėjama - iškarto pralaimima
+- Jei spėjamas visas žodis ir neatspėjama - iškarto pralaimima
 + Parodoma atspėtos raidės vieta žodyje
 + Parodomos spėtos, bet neatspėtos raidės
 
