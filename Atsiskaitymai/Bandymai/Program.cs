@@ -6,12 +6,12 @@ namespace Bandymai
     internal class Program
 
     {
-        //public static List<int> usedRandIndex = new List<int>();
-        public static List<int> usedRandIndex = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        public static List<int> usedRandIndex = new List<int>();
+        //public static List<int> usedRandIndex = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         public static int wrongCount = 0;
         public static bool gameOn = true;
         public static bool menuOn = true;
-        public static bool looseMenuOn = true;
+        //public static bool looseMenuOn = true;
 
 
 
