@@ -34,24 +34,28 @@ namespace Hangman
                 Console.WriteLine("[1] VARDAI\n[2] LIETUVOS MIESTAI\n[3] VALSTYBES\n[4] KITA\n[5] ISEITI");
                 var input = Console.ReadLine();
 
-                switch (MenuValidacija(input))
+                switch (input)
                 {
-                    case 1:
+                    case  "1":
                         //wrongCount = 0;
                         gameOn = true;
                         Vardai();
                         break;
-                    case 2:
+                    case "2":
                         //Miestai();
                         break;
-                    case 3:
+                    case "3":
                         //Valstybes();
                         break;
-                    case 4:
+                    case "4":
                         //Givunai();
                         break;
-                    case 5:
+                    case "5":
                         menuOn = false;
+                        break;
+                    default: 
+                        Console.WriteLine("Negalima ivestis");
+                        Console.ReadKey();
                         break;
 
 
@@ -205,10 +209,19 @@ namespace Hangman
                 Console.WriteLine("Spetos Raides:\n{0}", spetosRaides.ToString());
 
                 var guess = Console.ReadLine().ToUpper();
+                foreach (var letter in guess)
+                {
+                    bool isNumber = double.TryParse(letter.ToString(), out _);
+                    if (isNumber == true || isNumber == null)
+                    {
+                        Console.WriteLine("Negalima ivestis");
 
-                foreach (var letter in guess) { spetosRaides.Append(letter); spetosRaides.Append(" "); };
+                    }
+                }
 
-                WrongCountCalculator(guess, word);
+                //foreach (var letter in guess) { spetosRaides.Append(letter); spetosRaides.Append(" "); };
+
+                WrongCountCalculator(guess, word , ref spetosRaides);
                 CorrectGuess(guess, word, indexList, hiddenWord);
 
 
@@ -248,15 +261,29 @@ namespace Hangman
             }
         }
 
-        public static void WrongCountCalculator(string guess, string word)
+        public static void WrongCountCalculator(string guess, string word, ref StringBuilder spetosRaides)
         {
             if (word.Contains(guess) == false)
             {
 
 
                 foreach (var letter in guess)
+
                 {
-                    ++wrongCount;
+                    bool isNumber = int.TryParse(letter.ToString(), out _);
+                    if (isNumber == true || isNumber == null)
+                    {                       
+
+                    }
+                    else
+                    {
+                        if (spetosRaides.ToString().Contains(letter) == false)
+                        {
+                            spetosRaides.Append(letter);
+                            spetosRaides.Append(" ");
+                            ++wrongCount;
+                        }
+                    }
                 }
             }
         }
@@ -352,13 +379,13 @@ namespace Hangman
  Instructions
 - Naudotojas pasirenka iš temų: VARDAI, LIETUVOS MIESTAI, VALSTYBES, KITA. 
   (ne mažiau kaip 10 žodžių kiekvienoje grupėje)
-- Žodis iš pasirinktos grupės parenkamas atsitiktine tvarka.
-- Užtikrinti kad nebūtu duodamas tas pat žodis daugiau kaip 1 kartą per žaidimą
-- Užtikrinti, kad programą nenulūžtu jei vartotojas įveda ne tai ko prašoma
-- Ėjimas skaitomas tik jei spėjama dar nespėta raidė
-- Jei spėjamas visas žodis ir neatspėjama - iškarto pralaimima
-- Parodoma atspėtos raidės vieta žodyje
-- Parodomos spėtos, bet neatspėtos raidės
++ Žodis iš pasirinktos grupės parenkamas atsitiktine tvarka.
++ Užtikrinti kad nebūtu duodamas tas pat žodis daugiau kaip 1 kartą per žaidimą
++ Užtikrinti, kad programą nenulūžtu jei vartotojas įveda ne tai ko prašoma
++ Ėjimas skaitomas tik jei spėjama dar nespėta raidė
++ Jei spėjamas visas žodis ir neatspėjama - iškarto pralaimima
++ Parodoma atspėtos raidės vieta žodyje
++ Parodomos spėtos, bet neatspėtos raidės
 
 Apribojimai:
 - Žodžius saugoti masyvuose  arba žodyne.
