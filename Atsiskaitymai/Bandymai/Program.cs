@@ -20,7 +20,7 @@ namespace Bandymai
             MainMenu();
         }
 
-        private static void MainMenu()
+        public static void MainMenu()
         {
 
             while (menuOn)
@@ -68,7 +68,7 @@ namespace Bandymai
 
         }
 
-        private static void Gyvunai()
+        public static void Gyvunai()
         {
             var gyvunuZodynas = new Dictionary<int, string>()
             {
@@ -86,7 +86,7 @@ namespace Bandymai
             Game(gyvunuZodynas);
         }
 
-        private static void Valstybes()
+        public static void Valstybes()
         {
             var valstybiuZodynas = new Dictionary<int, string>()
             {
@@ -104,7 +104,7 @@ namespace Bandymai
             Game(valstybiuZodynas);
         }
 
-        private static void Miestai()
+        public static void Miestai()
         {
             var miestuZodynas = new Dictionary<int, string>()
             {
@@ -144,7 +144,7 @@ namespace Bandymai
             }
         }*/
 
-        private static void Vardai()
+        public static void Vardai()
         {
 
             var varduZodynas = new Dictionary<int, string>()
@@ -201,10 +201,9 @@ namespace Bandymai
                 int randIndex = rand.Next(1, (dict.Count + 1));// 1 - kad nebudtu generuojamas 0,,, +1 kad dictionary ilgi imtu imtinai.
                 //----------------------------------------------//
                 GameWinCondition(dict ,ref x);
-             
 
-                while (usedRandIndex.Contains(randIndex)) { randIndex = rand.Next(1, 11); };
-                usedRandIndex.Add(randIndex);
+                UsedRandIndexCheck(ref randIndex , rand);
+                
 
                 //------------------------------------//
                 var hiddenWord = new StringBuilder();
@@ -212,17 +211,21 @@ namespace Bandymai
                 string word = dict[randIndex];
                 //string word = "ABC";
 
-
-
                 foreach (var item in word) { hiddenWord.Append("-"); }
 
-                Guess(hiddenWord, word, randIndex, rand);
+                Guess(hiddenWord, word);
             }
 
 
         }
 
-        private static void GameWinCondition(Dictionary<int, string> dict, ref bool x)
+        public static void UsedRandIndexCheck(ref int randIndex, Random rand)
+        {
+            while (usedRandIndex.Contains(randIndex)) { randIndex = rand.Next(1, 11); };
+            usedRandIndex.Add(randIndex);
+        }
+
+        public static void GameWinCondition(Dictionary<int, string> dict, ref bool x)
         {
             if (usedRandIndex.Count == dict.Count)
             {
@@ -235,20 +238,14 @@ namespace Bandymai
             }
         }
 
-        public static void Guess(StringBuilder hiddenWord, string word, int randIndex, Random rand)
-
+        public static void Guess(StringBuilder hiddenWord, string word)
         {
-
             var spetosRaides = new StringBuilder();
 
             var indexList = new List<int>();
 
-
             while (gameOn)
             {
-
-
-
 
                 Console.Clear();
                 if (wrongCount > 5)
@@ -278,20 +275,13 @@ namespace Bandymai
                 Console.WriteLine("Spetos Raides:\n{0}", spetosRaides.ToString());
 
                 var guess = Console.ReadLine().ToUpper();
+
                 foreach (var letter in guess)
                 {
-                    bool isNumber = double.TryParse(letter.ToString(), out _);
-                    if (isNumber == true || isNumber == null)
-                    {
-                        Console.WriteLine("Negalima ivestis");
-
-                    }
+                    WrongCountCalculator(letter, word, ref spetosRaides) ;
+                    CorrectGuess(letter, word, indexList, hiddenWord);
                 }
-
-
-
-                WrongCountCalculator(guess, word, ref spetosRaides);
-                CorrectGuess(guess, word, indexList, hiddenWord);
+                
 
 
 
@@ -303,50 +293,33 @@ namespace Bandymai
 
         }
 
-        public static void CorrectGuess(string guess, string word, List<int> indexList, StringBuilder hiddenWord)
+        public static void CorrectGuess(char letter, string word, List<int> indexList, StringBuilder hiddenWord)
         {
 
-            if (word.Contains(guess))
-            {
-                foreach (var letter in guess)
-                {
-
+            if (word.Contains(letter))
+            {                
+                
                     for (int i = 0; i < word.Length; i++)
-
                     {
                         if (word[i] == letter) indexList.Add(i);
-
                     }
-                }
+                
             }
-            foreach (var index in indexList)
-            {
+            foreach (var index in indexList) { hiddenWord[index] = word[index]; }          }
+        
 
-
-                hiddenWord[index] = word[index];
-
-
-
-            }
-        }
-
-        public static void WrongCountCalculator(string guess, string word, ref StringBuilder spetosRaides)
+        public static void WrongCountCalculator(char letter, string word, ref StringBuilder spetosRaides)
         {
-            if (word.Contains(guess) == false)
-            {
-
-                if (guess.Length == word.Length)
+           //if (guess.Length == word.Length) { wrongCount = 6; }          
+           
+           
+                if (word.Contains(letter) == false)
                 {
-                    wrongCount = 6;
 
-                }
-                foreach (var letter in guess)
-
-                {
                     bool isNumber = int.TryParse(letter.ToString(), out _);
                     if (isNumber == true || isNumber == null)
                     {
-
+                        //nedaro nieko , skaiciaus ivedimas nefiksuojamas
                     }
                     else
                     {
@@ -358,8 +331,9 @@ namespace Bandymai
                         }
                     }
                 }
-            }
+           
         }
+        
 
         public static void Drwing()
         {

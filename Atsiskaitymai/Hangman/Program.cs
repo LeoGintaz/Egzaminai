@@ -7,12 +7,12 @@ namespace Hangman
     internal class Program
 
     {
-        //public static List<int> usedRandIndex = new List<int>();
-        public static List<int> usedRandIndex = new List<int> {1,2,3,4,5,6,7,8,9 };
+        public static List<int> usedRandIndex = new List<int>();
+        //public static List<int> usedRandIndex = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         public static int wrongCount = 0;
         public static bool gameOn = true;
         public static bool menuOn = true;
-        public static bool looseMenuOn = true;
+        //public static bool looseMenuOn = true;
 
 
 
@@ -21,7 +21,7 @@ namespace Hangman
             MainMenu();
         }
 
-        private static void MainMenu()
+        public static void MainMenu()
         {
 
             while (menuOn)
@@ -37,8 +37,8 @@ namespace Hangman
 
                 switch (input)
                 {
-                    case  "1":
-                        
+                    case "1":
+
                         gameOn = true;
                         Vardai();
                         break;
@@ -47,7 +47,7 @@ namespace Hangman
                         Miestai();
                         break;
                     case "3":
-                        gameOn= true;
+                        gameOn = true;
                         Valstybes();
                         break;
                     case "4":
@@ -57,7 +57,7 @@ namespace Hangman
                     case "5":
                         menuOn = false;
                         break;
-                    default: 
+                    default:
                         Console.WriteLine("Negalima ivestis");
                         Console.ReadKey();
                         break;
@@ -69,7 +69,7 @@ namespace Hangman
 
         }
 
-        private static void Gyvunai()
+        public static void Gyvunai()
         {
             var gyvunuZodynas = new Dictionary<int, string>()
             {
@@ -87,7 +87,7 @@ namespace Hangman
             Game(gyvunuZodynas);
         }
 
-        private static void Valstybes()
+        public static void Valstybes()
         {
             var valstybiuZodynas = new Dictionary<int, string>()
             {
@@ -105,7 +105,7 @@ namespace Hangman
             Game(valstybiuZodynas);
         }
 
-        private static void Miestai()
+        public static void Miestai()
         {
             var miestuZodynas = new Dictionary<int, string>()
             {
@@ -123,31 +123,31 @@ namespace Hangman
             Game(miestuZodynas);
         }
 
-        private static void LooseMenu()
-        {
-            #region SPALVA
-            Console.ForegroundColor = ConsoleColor.White;
-            #endregion
-            Console.WriteLine("\n[1] BANDYTI IS NAUJO\n[2] PASIRINKTI KITA TEMA");
-            var input = Console.ReadLine();
-            while (looseMenuOn = true)
-            {
-                switch (MenuValidacija(input))
+        /*        private static void LooseMenu()
                 {
-                    case 1:
-                        Vardai();
-                        break;
-                    case 2:
-                        looseMenuOn = false;
-                        MainMenu();
-                        break;
-                }
-            }
-        }
+                    #region SPALVA
+                    Console.ForegroundColor = ConsoleColor.White;
+                    #endregion
+                    Console.WriteLine("\n[1] BANDYTI IS NAUJO\n[2] PASIRINKTI KITA TEMA");
+                    var input = Console.ReadLine();
+                    while (looseMenuOn = true)
+                    {
+                        switch (MenuValidacija(input))
+                        {
+                            case 1:
+                                Vardai();
+                                break;
+                            case 2:
+                                looseMenuOn = false;
+                                MainMenu();
+                                break;
+                        }
+                    }
+                }*/
 
-        private static void Vardai()
+        public static void Vardai()
         {
-            
+
             var varduZodynas = new Dictionary<int, string>()
             {
                 {1, "TOMAS"},
@@ -166,83 +166,87 @@ namespace Hangman
 
 
 
-        public static int MenuValidacija(string input)
-        {
+        /*        public static int MenuValidacija(string input)
+                {
 
-            bool isNumber = int.TryParse(input, out int result);
-            if (isNumber == false)
-            {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Negalima ivestis");
-                Console.ForegroundColor = ConsoleColor.White;
-            }
-            return result;
+                    bool isNumber = int.TryParse(input, out int result);
+                    if (isNumber == false)
+                    {
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Negalima ivestis");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    return result;
 
-        }
+                }*/
 
-        public static string ZaidimoValidaacija(string input)
-        {
+        /*        public static string ZaidimoValidaacija(string input)
+                {
 
-            bool isNumber = double.TryParse(input, out _);
-            if (isNumber == true || isNumber == null)
-            {
-                Console.WriteLine("Negalima ivestis");
-                return "-1";
-            }
-            return input;
+                    bool isNumber = double.TryParse(input, out _);
+                    if (isNumber == true || isNumber == null)
+                    {
+                        Console.WriteLine("Negalima ivestis");
+                        return "-1";
+                    }
+                    return input;
 
-        }
-        public static void Game(Dictionary<int, string> list)
+                }*/
+        public static void Game(Dictionary<int, string> dict)
         {
             Random rand = new Random();
             var x = true;
             while (x)
             {
-                int randIndex = rand.Next(1, (list.Count + 1));
-                if (usedRandIndex.Count == list.Count)
-                {
-                    Console.WriteLine("Laimejote");
-                    Console.ReadKey();
-                    usedRandIndex.Clear();
-                    wrongCount = 0;
-                    gameOn = false;
-                    x = false;
-                }
+                int randIndex = rand.Next(1, (dict.Count + 1));// 1 - kad nebudtu generuojamas 0,,, +1 kad dictionary ilgi imtu imtinai.
+                //----------------------------------------------//
+                GameWinCondition(dict, ref x);
 
-                while (usedRandIndex.Contains(randIndex)) { randIndex = rand.Next(1, 11); };
-                usedRandIndex.Add(randIndex);
+                UsedRandIndexCheck(ref randIndex, rand);
+
 
                 //------------------------------------//
                 var hiddenWord = new StringBuilder();
 
-                string word = list[randIndex];
+                string word = dict[randIndex];
                 //string word = "ABC";
 
-
-                
                 foreach (var item in word) { hiddenWord.Append("-"); }
 
-                Guess(hiddenWord, word, randIndex, rand);
+                Guess(hiddenWord, word);
             }
 
 
         }
 
-        public static void Guess(StringBuilder hiddenWord, string word, int randIndex, Random rand)
-
+        public static void UsedRandIndexCheck(ref int randIndex, Random rand)
         {
+            while (usedRandIndex.Contains(randIndex)) { randIndex = rand.Next(1, 11); };
+            usedRandIndex.Add(randIndex);
+        }
 
+        public static void GameWinCondition(Dictionary<int, string> dict, ref bool x)
+        {
+            if (usedRandIndex.Count == dict.Count)
+            {
+                Console.WriteLine("Laimejote");
+                Console.ReadKey();
+                usedRandIndex.Clear();
+                wrongCount = 0;
+                gameOn = false;
+                x = false;
+            }
+        }
+
+        public static void Guess(StringBuilder hiddenWord, string word)
+        {
             var spetosRaides = new StringBuilder();
 
             var indexList = new List<int>();
-            
 
             while (gameOn)
             {
-              
-
-               
 
                 Console.Clear();
                 if (wrongCount > 5)
@@ -251,17 +255,17 @@ namespace Hangman
                     Console.ForegroundColor = ConsoleColor.Red;
                     #endregion
                     Console.WriteLine("Pralaimejote");
-                    
+
                     wrongCount = 0;
                     gameOn = false;
 
                 }
                 if (hiddenWord.ToString() == word)
                 {
-                    
+
                     Console.WriteLine("Atspejote");
                     Console.ReadKey();
-                    
+
                     wrongCount = 0;
                     break;
                 }
@@ -272,20 +276,13 @@ namespace Hangman
                 Console.WriteLine("Spetos Raides:\n{0}", spetosRaides.ToString());
 
                 var guess = Console.ReadLine().ToUpper();
+
                 foreach (var letter in guess)
                 {
-                    bool isNumber = double.TryParse(letter.ToString(), out _);
-                    if (isNumber == true || isNumber == null)
-                    {
-                        Console.WriteLine("Negalima ivestis");
-
-                    }
+                    WrongCountCalculator(letter, word, ref spetosRaides);
+                    CorrectGuess(letter, word, indexList, hiddenWord);
                 }
 
-                
-
-                WrongCountCalculator(guess, word , ref spetosRaides);
-                CorrectGuess(guess, word, indexList, hiddenWord);
 
 
 
@@ -297,63 +294,48 @@ namespace Hangman
 
         }
 
-        public static void CorrectGuess(string guess, string word, List<int> indexList, StringBuilder hiddenWord)
+        public static void CorrectGuess(char letter, string word, List<int> indexList, StringBuilder hiddenWord)
         {
 
-            if (word.Contains(guess))
+            if (word.Contains(letter))
             {
-                foreach (var letter in guess)
+
+                for (int i = 0; i < word.Length; i++)
                 {
-
-                    for (int i = 0; i < word.Length; i++)
-
-                    {
-                        if (word[i] == letter) indexList.Add(i);
-
-                    }
+                    if (word[i] == letter) indexList.Add(i);
                 }
-            }
-            foreach (var index in indexList)
-            {
-
-
-                hiddenWord[index] = word[index];
-
-
 
             }
+            foreach (var index in indexList) { hiddenWord[index] = word[index]; }
         }
 
-        public static void WrongCountCalculator(string guess, string word, ref StringBuilder spetosRaides)
+
+        public static void WrongCountCalculator(char letter, string word, ref StringBuilder spetosRaides)
         {
-            if (word.Contains(guess) == false)
+            //if (guess.Length == word.Length) { wrongCount = 6; }          
+
+
+            if (word.Contains(letter) == false)
             {
 
-                if (guess.Length == word.Length)
+                bool isNumber = int.TryParse(letter.ToString(), out _);
+                if (isNumber == true || isNumber == null)
                 {
-                    wrongCount = 6;
-                    
+                    //nedaro nieko , skaiciaus ivedimas nefiksuojamas
                 }
-                foreach (var letter in guess)
-
+                else
                 {
-                    bool isNumber = int.TryParse(letter.ToString(), out _);
-                    if (isNumber == true || isNumber == null)
-                    {                       
-
-                    }
-                    else
+                    if (spetosRaides.ToString().Contains(letter) == false)
                     {
-                        if (spetosRaides.ToString().Contains(letter) == false)
-                        {
-                            spetosRaides.Append(letter);
-                            spetosRaides.Append(" ");
-                            ++wrongCount;
-                        }
+                        spetosRaides.Append(letter);
+                        spetosRaides.Append(" ");
+                        ++wrongCount;
                     }
                 }
             }
+
         }
+
 
         public static void Drwing()
         {
@@ -364,10 +346,11 @@ namespace Hangman
             //                  ↑     ↑     ↑     ↑    ↑    ↑
             string[] kunas = { " ", "   ", " ", " ", " ", " " };
             // ↑↑↑ tarpai ==    1     3     1    1    1    1 ↑↑↑
-            
-            for (int i = 0; i < wrongCount; ++i) { 
+
+            for (int i = 0; i < wrongCount; ++i)
+            {
                 kunas[i] = body[i];
-                
+
             };
 
 
