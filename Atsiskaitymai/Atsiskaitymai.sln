@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangman", "Hangman\Hangman.csproj", "{B0E4EA10-728C-425F-B1CD-F3E65E3C8CCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bandymai", "Bandymai\Bandymai.csproj", "{1EE37D51-3858-4F17-A6B8-C79B51127287}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bandymai", "Bandymai\Bandymai.csproj", "{1EE37D51-3858-4F17-A6B8-C79B51127287}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
