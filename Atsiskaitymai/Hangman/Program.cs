@@ -244,7 +244,7 @@ namespace Hangman
                 Console.ForegroundColor = ConsoleColor.White;
                 #endregion
                 var guess = Console.ReadLine().ToUpper();
-
+                WrongWordCheck(guess , word);
                 foreach (var letter in guess)
                 {
                     WrongCountCalculator(letter, word, ref spetosRaides);
@@ -255,6 +255,19 @@ namespace Hangman
 
 
         }
+
+        public static void WrongWordCheck(string guess, string word)
+        {
+            if (word.Contains(guess) == false)
+            {
+                if (guess.Length == word.Length)
+                {
+                    wrongCount = 6;
+                }
+            }
+        }
+
+       
 
         public static void CorrectGuess(char letter, string word, List<int> indexList, StringBuilder hiddenWord)
         {
@@ -274,7 +287,7 @@ namespace Hangman
 
         public static void WrongCountCalculator(char letter, string word, ref StringBuilder spetosRaides)
         {                    
-
+            
 
             if (word.Contains(letter) == false)
             {
