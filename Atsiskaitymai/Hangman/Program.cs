@@ -170,7 +170,7 @@ namespace Hangman
 
                 foreach (var item in word) { hiddenWord.Append("-"); }
 
-                Guess(hiddenWord, word);
+                Guess(hiddenWord, word ,ref x);
             }
 
 
@@ -201,7 +201,7 @@ namespace Hangman
             }
         }
 
-        public static void Guess(StringBuilder hiddenWord, string word)
+        public static void Guess(StringBuilder hiddenWord, string word, ref bool x)
         {
             var spetosRaides = new StringBuilder();
 
@@ -220,6 +220,7 @@ namespace Hangman
 
                     wrongCount = 0;
                     gameOn = false;
+                    x = false;
 
                 }
                 if (hiddenWord.ToString() == word)

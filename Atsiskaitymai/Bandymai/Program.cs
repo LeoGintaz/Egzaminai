@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Text;
 
-namespace Bandymai
+namespace Hangman
 {
-    internal class Program
+
+    public class Program
 
     {
         public static List<int> usedRandIndex = new List<int>();
-        //public static List<int> usedRandIndex = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         public static int wrongCount = 0;
         public static bool gameOn = true;
         public static bool menuOn = true;
-        //public static bool looseMenuOn = true;
+
 
 
 
@@ -57,7 +57,13 @@ namespace Bandymai
                         menuOn = false;
                         break;
                     default:
+                        #region SPALVA
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        #endregion
                         Console.WriteLine("Negalima ivestis");
+                        #region SPALVA
+                        Console.ForegroundColor = ConsoleColor.White;
+                        #endregion
                         Console.ReadKey();
                         break;
 
@@ -122,27 +128,6 @@ namespace Bandymai
             Game(miestuZodynas);
         }
 
-/*        private static void LooseMenu()
-        {
-            #region SPALVA
-            Console.ForegroundColor = ConsoleColor.White;
-            #endregion
-            Console.WriteLine("\n[1] BANDYTI IS NAUJO\n[2] PASIRINKTI KITA TEMA");
-            var input = Console.ReadLine();
-            while (looseMenuOn = true)
-            {
-                switch (MenuValidacija(input))
-                {
-                    case 1:
-                        Vardai();
-                        break;
-                    case 2:
-                        looseMenuOn = false;
-                        MainMenu();
-                        break;
-                }
-            }
-        }*/
 
         public static void Vardai()
         {
@@ -164,34 +149,6 @@ namespace Bandymai
         }
 
 
-
-/*        public static int MenuValidacija(string input)
-        {
-
-            bool isNumber = int.TryParse(input, out int result);
-            if (isNumber == false)
-            {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Negalima ivestis");
-                Console.ForegroundColor = ConsoleColor.White;
-            }
-            return result;
-
-        }*/
-
-/*        public static string ZaidimoValidaacija(string input)
-        {
-
-            bool isNumber = double.TryParse(input, out _);
-            if (isNumber == true || isNumber == null)
-            {
-                Console.WriteLine("Negalima ivestis");
-                return "-1";
-            }
-            return input;
-
-        }*/
         public static void Game(Dictionary<int, string> dict)
         {
             Random rand = new Random();
@@ -200,10 +157,10 @@ namespace Bandymai
             {
                 int randIndex = rand.Next(1, (dict.Count + 1));// 1 - kad nebudtu generuojamas 0,,, +1 kad dictionary ilgi imtu imtinai.
                 //----------------------------------------------//
-                GameWinCondition(dict ,ref x);
+                GameWinCondition(dict, ref x);
 
-                UsedRandIndexCheck(ref randIndex , rand);
-                
+                UsedRandIndexCheck(ref randIndex, rand);
+
 
                 //------------------------------------//
                 var hiddenWord = new StringBuilder();
@@ -229,7 +186,13 @@ namespace Bandymai
         {
             if (usedRandIndex.Count == dict.Count)
             {
+                #region SPALVA
+                Console.ForegroundColor = ConsoleColor.Green;
+                #endregion
                 Console.WriteLine("Laimejote");
+                #region SPALVA
+                Console.ForegroundColor = ConsoleColor.White;
+                #endregion
                 Console.ReadKey();
                 usedRandIndex.Clear();
                 wrongCount = 0;
@@ -261,7 +224,9 @@ namespace Bandymai
                 }
                 if (hiddenWord.ToString() == word)
                 {
-
+                    #region SPALVA
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    #endregion
                     Console.WriteLine("Atspejote");
                     Console.ReadKey();
 
@@ -271,69 +236,80 @@ namespace Bandymai
                 Drwing();
 
                 Console.WriteLine(hiddenWord.ToString());
-                Console.WriteLine(wrongCount);
+                #region SPALVA
+                Console.ForegroundColor = ConsoleColor.Red;
+                #endregion
                 Console.WriteLine("Spetos Raides:\n{0}", spetosRaides.ToString());
-
+                #region SPALVA
+                Console.ForegroundColor = ConsoleColor.White;
+                #endregion
                 var guess = Console.ReadLine().ToUpper();
-
+                WrongWordCheck(guess, word);
                 foreach (var letter in guess)
                 {
-                    WrongCountCalculator(letter, word, ref spetosRaides) ;
+                    WrongCountCalculator(letter, word, ref spetosRaides);
                     CorrectGuess(letter, word, indexList, hiddenWord);
                 }
-                
-
-
-
-
-
 
             }
 
 
         }
+
+        public static void WrongWordCheck(string guess, string word)
+        {
+            if (word.Contains(guess) == false)
+            {
+                if (guess.Length == word.Length)
+                {
+                    wrongCount = 6;
+                }
+            }
+        }
+
+
 
         public static void CorrectGuess(char letter, string word, List<int> indexList, StringBuilder hiddenWord)
         {
 
             if (word.Contains(letter))
-            {                
-                
-                    for (int i = 0; i < word.Length; i++)
-                    {
-                        if (word[i] == letter) indexList.Add(i);
-                    }
-                
+            {
+
+                for (int i = 0; i < word.Length; i++)
+                {
+                    if (word[i] == letter) indexList.Add(i);
+                }
+
             }
-            foreach (var index in indexList) { hiddenWord[index] = word[index]; }          }
-        
+            foreach (var index in indexList) { hiddenWord[index] = word[index]; }
+        }
+
 
         public static void WrongCountCalculator(char letter, string word, ref StringBuilder spetosRaides)
         {
-           //if (guess.Length == word.Length) { wrongCount = 6; }          
-           
-           
-                if (word.Contains(letter) == false)
-                {
 
-                    bool isNumber = int.TryParse(letter.ToString(), out _);
-                    if (isNumber == true || isNumber == null)
+
+            if (word.Contains(letter) == false)
+            {
+
+                bool isNumber = int.TryParse(letter.ToString(), out _);
+                if (isNumber == true || isNumber == null)
+                {
+                    //nedaro nieko , skaiciaus ivedimas nefiksuojamas
+                }
+                else
+                {
+                    if (spetosRaides.ToString().Contains(letter) == false)
                     {
-                        //nedaro nieko , skaiciaus ivedimas nefiksuojamas
-                    }
-                    else
-                    {
-                        if (spetosRaides.ToString().Contains(letter) == false)
-                        {
-                            spetosRaides.Append(letter);
-                            spetosRaides.Append(" ");
-                            ++wrongCount;
-                        }
+                        spetosRaides.Append(letter);
+                        spetosRaides.Append(" ");
+                        ++wrongCount;
                     }
                 }
-           
+            }
+
         }
-        
+
 
         public static void Drwing()
         {
@@ -344,17 +320,16 @@ namespace Bandymai
             //                  ↑     ↑     ↑     ↑    ↑    ↑
             string[] kunas = { " ", "   ", " ", " ", " ", " " };
             // ↑↑↑ tarpai ==    1     3     1    1    1    1 ↑↑↑
-
+            if (wrongCount == 6)
+            {
+                kunas = body;
+                
+            }
             for (int i = 0; i < wrongCount; ++i)
             {
                 kunas[i] = body[i];
 
             };
-
-
-
-
-
 
 
             #region STATINIS PIESSINYS
@@ -370,7 +345,7 @@ namespace Bandymai
             Console.Write("|\n");////////////////////////////////////
             Console.ForegroundColor = ConsoleColor.DarkYellow;///////
             Console.Write("     |      ");///////////////////////////
-                                          /////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////
             #endregion
 
             Console.ForegroundColor = ConsoleColor.Red;
@@ -384,7 +359,7 @@ namespace Bandymai
             /////////////////////////////////////////////////////////
             Console.ForegroundColor = ConsoleColor.DarkYellow;///////
             Console.Write("\n    /|\\     ");//////////////////////// STATINIS PIESSINYS
-                                             /////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////
             #endregion
 
             Console.ForegroundColor = ConsoleColor.Red;
@@ -394,7 +369,7 @@ namespace Bandymai
             /////////////////////////////////////////////////////////
             Console.ForegroundColor = ConsoleColor.DarkYellow;///////
             Console.Write("\n   / | \\    ");//////////////////////// STATINIS PIESSINYS
-                                             /////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////
             #endregion
 
             Console.ForegroundColor = ConsoleColor.Red;
@@ -420,10 +395,28 @@ namespace Bandymai
             Console.Write("\\");/////////////////////////////////////
             Console.ForegroundColor = ConsoleColor.DarkGreen;////////
             Console.WriteLine("________");///////////////////////////
-                                          /////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////
             Console.ForegroundColor = ConsoleColor.White;
             #endregion
 
         }
     }
 }
+/*
+ Instructions
++ Naudotojas pasirenka iš temų: VARDAI, LIETUVOS MIESTAI, VALSTYBES, KITA. 
+  (ne mažiau kaip 10 žodžių kiekvienoje grupėje)
++ Žodis iš pasirinktos grupės parenkamas atsitiktine tvarka.
++ Užtikrinti kad nebūtu duodamas tas pat žodis daugiau kaip 1 kartą per žaidimą
++ Užtikrinti, kad programą nenulūžtu jei vartotojas įveda ne tai ko prašoma
++ Ėjimas skaitomas tik jei spėjama dar nespėta raidė
++ Jei spėjamas visas žodis ir neatspėjama - iškarto pralaimima
++ Parodoma atspėtos raidės vieta žodyje
++ Parodomos spėtos, bet neatspėtos raidės
+
+Apribojimai:
++ Žodžius saugoti masyvuose  arba žodyne.
++ Kodą skaidyti į metodus.
++ negalima naudoti OOP ir LINQ
+ */
+// "","","","","","","","","",""
