@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangman", "Hangman\Hangman.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bandymai", "Bandymai\Bandymai.csproj", "{1EE37D51-3858-4F17-A6B8-C79B51127287}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Timer", "Timer\Timer.csproj", "{A974246D-DB66-481B-8007-9E7ECB16DA44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tower of Hanoi", "Tower of Hanoi\Tower of Hanoi.csproj", "{3A0A2D15-860E-4962-8161-D42AC7F6704B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{1EE37D51-3858-4F17-A6B8-C79B51127287}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EE37D51-3858-4F17-A6B8-C79B51127287}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EE37D51-3858-4F17-A6B8-C79B51127287}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A974246D-DB66-481B-8007-9E7ECB16DA44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A974246D-DB66-481B-8007-9E7ECB16DA44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A974246D-DB66-481B-8007-9E7ECB16DA44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A974246D-DB66-481B-8007-9E7ECB16DA44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A0A2D15-860E-4962-8161-D42AC7F6704B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A0A2D15-860E-4962-8161-D42AC7F6704B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A0A2D15-860E-4962-8161-D42AC7F6704B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A0A2D15-860E-4962-8161-D42AC7F6704B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
