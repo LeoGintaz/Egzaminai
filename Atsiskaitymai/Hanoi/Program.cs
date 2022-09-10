@@ -5,6 +5,7 @@
         static void Main(string[] args)
         {
             Board board = new Board();
+            Map map = new Map();
             board.Draw();// nupiesia sona ir apacia
             board.DrawTower(); // nupiesia stulpu centrus
             //---------------------
@@ -18,10 +19,11 @@
             
             //-----------------------
             Game game = new Game();
-            game.line = 4;
-            game.Draw(disk4.Object());
-            game.line = 3;
-            game.Draw(disk3.Object());
+
+            game.Draw(disk4.Object(), map.tower[0], map.line[0]);
+
+            
+            game.Draw(disk3.Object(), map.tower[0], map.line[1]);
 
 
 
