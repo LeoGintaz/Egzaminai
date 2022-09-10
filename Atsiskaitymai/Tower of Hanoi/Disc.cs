@@ -10,13 +10,14 @@ namespace Tower_of_Hanoi
     {
         public int size;
         public int top;
+        public int position1x = 11;
 
         public void Draw()
         {
             var pos = size;
             for (int i = 0; i < size; i++)
             {
-                Console.SetCursorPosition(12 - pos, top);
+                Console.SetCursorPosition(position1x - pos, top);
                 pos--;
                 Console.WriteLine("#");
             }
