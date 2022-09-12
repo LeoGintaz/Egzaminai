@@ -8,7 +8,7 @@ namespace Tower_of_Hanoi
 {
     internal class Game
     {
-        public void Draw()
+        public void Start()
         {
             var cursorTop = 9;
             var cursorLeft = 0;
