@@ -13,10 +13,7 @@ namespace Tower_of_Hanoi
         public void Start(List<Tower> towers, List<string> disks)
         {
             Input input = new Input();
-            towers[0].line1 = disks[0];
-            towers[0].line2 = disks[1];
-            towers[0].line3 = disks[2];
-            towers[0].line4 = disks[3];
+            towers[0].lines = disks;
           
 
             while (true)
@@ -29,10 +26,11 @@ namespace Tower_of_Hanoi
                     case 1:
                         for (int i = 0; i < disks.Count; i++)
                         {
-                            if (disks[i].Length < disks[i + 1].Length)
+                            if (disks[i].Length < disks[i+1].Length)
                             {
-                                towers[0].lines[i] = towers[0].lineReset;
                                 Hand(disks[i]);
+                                towers[0].lines[i] = towers[0].lineReset;
+                                
                                 break;
                             }
                         }

@@ -10,7 +10,7 @@ namespace Tower_of_Hanoi
     {
         public void Draw() //Draws border of the game. Lines 5 to 1 and bottom line
         {
-            int linecount = 5;
+            int linecount = 4;
             for (int i = linecount; i > 0; i--)
             {
                 Console.WriteLine("Line" + i);

@@ -10,7 +10,7 @@ namespace Tower_of_Hanoi
     {
         public int xAxis;
         //private List<bool> lines = new List<bool> { false, false, false, false };
-        public List<string> lines = new List<string> { "    |    ", "    |    ", "    |    ", "    |    ", "    |    " }; 
+        public List<string> lines = new List<string> { "    |    ", "    |    ", "    |    ", "    |    "}; 
         public string line1 = "    |    ";
         public string line2 = "    |    ";
         public string line3 = "    |    ";

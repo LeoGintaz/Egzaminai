@@ -19,6 +19,7 @@ namespace Tower_of_Hanoi
         public string Generate()
         {
             StringBuilder disk = new StringBuilder();
+            
             for (int i = 0; i < size; i++)
             {
                 disk.Append("#");
