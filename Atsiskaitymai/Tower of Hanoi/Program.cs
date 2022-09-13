@@ -21,6 +21,9 @@
             Disk disk3 = new Disk(3);
             Disk disk4 = new Disk(4);
             List<string> disks = new List<string> {disk1.Generate(), disk2.Generate(), disk3.Generate(), disk4.Generate() };//Generates List of strings , by the size of each disk
+            List<Tower> towers = new List<Tower> { tower1, tower2, tower3 };
+            Game game = new Game();
+            game.Start(towers,disks);
 
 
 

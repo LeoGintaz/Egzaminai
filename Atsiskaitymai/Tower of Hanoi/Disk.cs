@@ -28,6 +28,7 @@ namespace Tower_of_Hanoi
             {
                 disk.Append("#");
             }
+            
             return disk.ToString();
         }
     

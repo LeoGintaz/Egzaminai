@@ -8,40 +8,24 @@ namespace Tower_of_Hanoi
 {
     internal class Game
     {
-        public void Start()
+        public void Start(List<Tower> towers, List<string> disks)
         {
-            var cursorTop = 9;
-            var cursorLeft = 0;
-            var list = new List<int>{1,2,3}; 
+            towers[0].line1 = disks[0];
+            towers[0].line2 = disks[1];
+            towers[0].line3 = disks[2];
+            towers[0].line4 = disks[3];
+            towers[0].Draw();
+            towers[1].Draw();
+            towers[2].Draw();
 
-            Console.SetCursorPosition(0, 15);
-            Console.WriteLine("      |====[1]====|====[2]====|====[3]====|");
-
-            foreach (var item in list)
-            {
-                cursorLeft += 12;
-                cursorTop = 9;
-
-
-
-                for (int j = 0; j < 6; j++)
-                {
-                    Console.SetCursorPosition(cursorLeft, cursorTop);
-                    Console.WriteLine("|");
-                    cursorTop += 1;
-                }
-            }
-         /*   for (int i = 0; i < 5; i++)
-            {
-                Console.SetCursorPosition(cursorLeft, cursorTop);
-                Console.WriteLine("|");
-                cursorTop += 1;
-            }*/
-            
-            
 
         }
+
+
+
+
     }
+}
 
    
-}
+
