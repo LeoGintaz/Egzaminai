@@ -29,9 +29,9 @@ namespace Tower_of_Hanoi
                     case 1:
                         for (int i = 0; i < disks.Count; i++)
                         {
-                            if (i == (disks.Count - 1) || disks[i].Length < disks[i+1].Length)
+                            if (i == towers[0].lines.Count -1|| towers[0].lines[i].Length < towers[0].lines[i+1].Length)
                             {
-                                Hand(disks[i]);
+                                Hand(towers[0].lines[i]);
                                 towers[0].lines[i] = towers[0].lineReset;
 
                                 break;
@@ -41,9 +41,9 @@ namespace Tower_of_Hanoi
                     case 2:
                         for (int i = 0; i < disks.Count; i++)
                         {
-                            if (i == (disks.Count - 1) || disks[i].Length < disks[i + 1].Length)
+                            if (i == towers[1].lines.Count -1 || towers[1].lines[i].Length < towers[1].lines[i + 1].Length)
                             {
-                                Hand(disks[i]);
+                                Hand(towers[1].lines[i]);
                                 towers[1].lines[i] = towers[1].lineReset;
 
                                 break;
@@ -53,9 +53,9 @@ namespace Tower_of_Hanoi
                     case 3:
                         for (int i = 0; i < disks.Count; i++)
                         {
-                            if (i == (disks.Count - 1) || disks[i].Length < disks[i + 1].Length)
+                            if (i == towers[2].lines.Count - 1 || towers[2].lines[i].Length < towers[2].lines[i + 1].Length)
                             {
-                                Hand(disks[i]);
+                                Hand(towers[2].lines[i]);
                                 towers[2].lines[i] = towers[2].lineReset;
 
                                 break;
@@ -66,23 +66,26 @@ namespace Tower_of_Hanoi
                         break;
                 }
 
-                //---------Place-------------//
+                
                 towers[0].Draw();
                 towers[1].Draw();
                 towers[2].Draw();
 
+                //---------Place-------------//
                 switch (input.Read())
                     {
                         case 1:
-                            for (int i = 0; i < disks.Count; i++)
+                           
+                            for (int i = 3; i < disks.Count; i--)
                             {
-                                
-                                //if ()
-                                    Hand(disks[i]);
-                                    //towers[1].lines[i] = towers[0].lineReset;
+                                if (!towers[0].lines[i].Contains("#"))
+                                {
+                                    towers[0].lines[i] = hand;
+                                    Hand(handReset);
 
                                     break;
-                                
+                                }
+
                             }
                             break;
                         case 2:
@@ -102,7 +105,18 @@ namespace Tower_of_Hanoi
                             }
                             break;
                         case 3:
+                        for (int i = 3; i < disks.Count; i--)
+                        {
+                            if (!towers[2].lines[i].Contains("#"))
+                            {
+                                towers[2].lines[i] = hand;
+                                Hand(handReset);
+
+                                break;
+                            }
+                        }
                             break;
+                        
                         case -1:
                             break;
                     }
@@ -119,7 +133,17 @@ namespace Tower_of_Hanoi
         }
 
 
+        /*  for (int i = 0; i < disks.Count; i++)
+                        {
+                            if (i == (disks.Count - 1) || disks[i].Length < disks[i+1].Length)
+                            {
+                                Hand(disks[i]);
+                                towers[0].lines[i] = towers[0].lineReset;
 
+                                break;
+                            }
+                        }
+        */
 
     }
 }
