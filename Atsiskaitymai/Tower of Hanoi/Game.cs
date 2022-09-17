@@ -89,21 +89,38 @@ namespace Tower_of_Hanoi
                             }
                             break;
                         case 2:
+                        
                             for (int i = 3; i < disks.Count; i--)
+                        {
+
+
+                            if (towers[1].lines[i].Contains("#") || towers[1].lines[i].Where(x => (x == '#')).Count() > hand.Where(x => (x == '#')).Count())
                             {
-                            if (!towers[1].lines[i].Contains("#"))
+                                Console.WriteLine("Error");
+                                Console.WriteLine(hand);
+                                Console.WriteLine(hand.Where(x => (x == '#')).Count());
+                                Console.WriteLine(towers[1].lines[i]);
+                                Console.WriteLine(towers[1].lines[i].Where(x => (x == '#')).Count());
+                                Console.WriteLine(towers[1].lines[i].Where(x => (x == '#')).Count() < hand.Where(x => (x == '#')).Count());
+                                
+
+                              
+                            }
+                            
                             {
                                 towers[1].lines[i] = hand;
                                 Hand(handReset);
-                                
                                 break;
                             }
 
 
-                                
-
-                            }
                             break;
+
+
+
+
+                        }
+                        break;
                         case 3:
                         for (int i = 3; i < disks.Count; i--)
                         {
