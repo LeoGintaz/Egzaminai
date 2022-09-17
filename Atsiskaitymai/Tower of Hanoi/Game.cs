@@ -10,6 +10,7 @@ namespace Tower_of_Hanoi
     {
         private string hand;
         private string handReset = "         ";
+        private bool skipTake = false;
         
         public void Start(List<Tower> towers, List<string> disks)
         {
@@ -19,58 +20,63 @@ namespace Tower_of_Hanoi
 
             while (true)
             {
-                towers[0].Draw();
-                towers[1].Draw();
-                towers[2].Draw();
-                
-                //---------Take-------------//
-                switch (input.Read())
+                if (skipTake == false) // if the move (Plase) was incorect , it will skip thee move (Take)
                 {
-                    case 1:
-                        for (int i = 0; i < disks.Count; i++)
-                        {
-                            if (i == towers[0].lines.Count -1|| towers[0].lines[i].Length < towers[0].lines[i+1].Length)
-                            {
-                                Hand(towers[0].lines[i]);
-                                towers[0].lines[i] = towers[0].lineReset;
 
-                                break;
-                            }
-                        }
-                        break;
-                    case 2:
-                        for (int i = 0; i < disks.Count; i++)
-                        {
-                            if (i == towers[1].lines.Count -1 || towers[1].lines[i].Length < towers[1].lines[i + 1].Length)
-                            {
-                                Hand(towers[1].lines[i]);
-                                towers[1].lines[i] = towers[1].lineReset;
 
-                                break;
-                            }
-                        }
-                        break;
-                    case 3:
-                        for (int i = 0; i < disks.Count; i++)
-                        {
-                            if (i == towers[2].lines.Count - 1 || towers[2].lines[i].Length < towers[2].lines[i + 1].Length)
-                            {
-                                Hand(towers[2].lines[i]);
-                                towers[2].lines[i] = towers[2].lineReset;
+                    towers[0].Draw();
+                    towers[1].Draw();
+                    towers[2].Draw();
 
-                                break;
+                    //---------Take-------------//
+                    switch (input.Read())
+                    {
+                        case 1:
+                            for (int i = 0; i < disks.Count; i++)
+                            {
+                                if (i == towers[0].lines.Count - 1 || towers[0].lines[i].Length < towers[0].lines[i + 1].Length)
+                                {
+                                    Hand(towers[0].lines[i]);
+                                    towers[0].lines[i] = towers[0].lineReset;
+
+                                    break;
+                                }
                             }
-                        }
-                        break;
-                    case -1:
-                        break;
+                            break;
+                        case 2:
+                            for (int i = 0; i < disks.Count; i++)
+                            {
+                                if (i == towers[1].lines.Count - 1 || towers[1].lines[i].Length < towers[1].lines[i + 1].Length)
+                                {
+                                    Hand(towers[1].lines[i]);
+                                    towers[1].lines[i] = towers[1].lineReset;
+
+                                    break;
+                                }
+                            }
+                            break;
+                        case 3:
+                            for (int i = 0; i < disks.Count; i++)
+                            {
+                                if (i == towers[2].lines.Count - 1 || towers[2].lines[i].Length < towers[2].lines[i + 1].Length)
+                                {
+                                    Hand(towers[2].lines[i]);
+                                    towers[2].lines[i] = towers[2].lineReset;
+
+                                    break;
+                                }
+                            }
+                            break;
+                        case -1:
+                            break;
+                    }
                 }
 
                 
                 towers[0].Draw();
                 towers[1].Draw();
                 towers[2].Draw();
-
+                skipTake = false; // Resumes the posibility of the move (Take)
                 //---------Place-------------//
                 switch (input.Read())
                     {
@@ -102,8 +108,9 @@ namespace Tower_of_Hanoi
                                 Console.WriteLine(towers[1].lines[i]);
                                 Console.WriteLine(towers[1].lines[i].Where(x => (x == '#')).Count());
                                 Console.WriteLine(towers[1].lines[i].Where(x => (x == '#')).Count() < hand.Where(x => (x == '#')).Count());
-                                
+                                skipTake = true;
 
+                                break;
                               
                             }
                             
